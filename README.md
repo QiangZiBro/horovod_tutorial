@@ -40,7 +40,7 @@ sudo apt-key add /var/nccl-local-repo-ubuntu2004-2.10.3-cuda11.0/7fa2af80.pub
 
 
 
-分别选择下列项![image-20210716155142838](https://gitee.com/qiangzibro/uPic/raw/master/uPic/image-20210716155142838.png)	
+分别选择下列项![5](https://gitee.com/qiangzibro/uPic/raw/master/uPic/image-20210716155142838.png)	
 
 下载，安装
 
@@ -109,8 +109,7 @@ HOROVOD_GPU_OPERATIONS=NCCL pip install horovod
 我们直接跑一跑Uber官方提供的[例子](https://github.com/horovod/horovod/tree/master/examples)，再去研究相关细节
 
 ```bash
-git clone https://github.com/horovod/horovod --depth 1
-cd horovod/examples/pytorch
+git clone https://github.com/horovod/horovod --depth 1cd horovod/examples/pytorch
 ```
 
 这里我们关注`pytorch_mnist.py` 这个脚本，注意到这个脚本用了一个第三方库，先安装之
@@ -131,7 +130,7 @@ horovodrun -np 2 -H localhost:2 python pytorch_mnist.py
 
 成功运行，结果日志如下:beers::beers:
 
-![image-20210716162636235](imgs/基于Horovod的多机多卡训练/image-20210716162636235.png)
+![image-20210716162636235](https://gitee.com/qiangzibro/uPic/raw/master/uPic/image-20210716162636235.png)
 
 ### 3.3 多机多卡运行
 
@@ -157,14 +156,7 @@ horovodrun --gloo --start-timeout 600 -np 4 -H 192.168.3.3:2,192.168.3.4:2 pytho
   报如下错误
 
   ```text
-  [GPU-2-3080-M5:11115] [[27185,0],1] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file grpcomm_direct.c at line 355
-  --------------------------------------------------------------------------
-  An internal error has occurred in ORTE:
-  
-  [[27185,0],1] FORCE-TERMINATE AT Data unpack would read past end of buffer:-26 - error grpcomm_direct.c(359)
-  
-  This is something that should be reported to the developers.
-  --------------------------------------------------------------------------
+  [GPU-2-3080-M5:11115] [[27185,0],1] ORTE_ERROR_LOG: Data unpack would read past end of buffer in file grpcomm_direct.c at line 355--------------------------------------------------------------------------An internal error has occurred in ORTE:[[27185,0],1] FORCE-TERMINATE AT Data unpack would read past end of buffer:-26 - error grpcomm_direct.c(359)This is something that should be reported to the developers.--------------------------------------------------------------------------
   ```
 
   解决方案：选择如下两种方式之一
