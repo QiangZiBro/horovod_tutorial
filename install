@@ -1,0 +1,19 @@
+if [ "$2" = "" ];then
+	sudo apt install -y cmake
+
+	sudo apt-key add /var/nccl-local-repo-ubuntu2004-2.10.3-cuda11.0/7fa2af80.pub
+	sudo dpkg -i nccl-local-repo-ubuntu2004-2.10.3-cuda11.0_1.0-1_amd64.deb
+	sudo apt update
+	sudo apt install libnccl2 libnccl-dev
+
+	tar -xvzf openmpi-4.0.0.tar.gz
+	cd openmpi-4.0.0
+	sudo apt list | grep hwloc | grep installed | awk -F',' '{print $1}' | xargs -I{} sudo apt purge -y {}
+	./configure --prefix=/usr/local
+	sudo make all install
+fi
+
+env=${1:-"caps3d"}
+eval "$(conda shell.bash hook)"
+conda activate $env
+HOROVOD_GPU_OPERATIONS=NCCL pip install horovod
