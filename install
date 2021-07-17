@@ -1,4 +1,8 @@
-if [ "$2" = "" ];then
+# Ex1. 安装horovod依赖，并且安装其到your_env中
+# ./install y your_env
+# Ex2. 不按照依赖，只安装horovod到your_env中
+# ./install n your_env
+if [ "$1" = "y" ];then
 	sudo apt install -y cmake
 
 	sudo apt-key add /var/nccl-local-repo-ubuntu2004-2.10.3-cuda11.0/7fa2af80.pub
@@ -13,7 +17,7 @@ if [ "$2" = "" ];then
 	sudo make all install
 fi
 
-env=${1:-"caps3d"}
+env=${2:-"your_env"}
 eval "$(conda shell.bash hook)"
 conda activate $env
 HOROVOD_GPU_OPERATIONS=NCCL pip install horovod
